@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Simple chat bot</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <form id="username-form" style="margin: 50px;">
+        <div class="form-group">
+            <label for="exampleInputEmail1">Username</label>
+            <input id="username-input" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter username">
+        </div>
+        <button id="username-submit" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <div id="chatbot-content" class="hidden">
+        <h1 class="text-center">Welcome to the chat bot</h1>
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="width: 18rem;margin-left:50px;">
+                    <div class="card-body">
+                        <h5 class="card-title">People connected</h5>
+                        <p class="card-text" id="active-users">There are 0 active users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="card" style="margin-right: 50px;">
+                    <div class="card-body" id="chat-window">
+                        Chat box
+                    </div>
+                    <textarea id="msg-content" class="form-control" placeholder="enter a message" name="Message Content"
+                        required></textarea>
+                    <input id="send" type="button" class="btn btn-success" value="Send" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="libs/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./app.js"></script>
+</body>
+
+</html>
