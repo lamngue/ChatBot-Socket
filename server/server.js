@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const io = socketIO(server);
 const {getTime} = require('./utils/timeTeller');
 const pathFile = path.join(__dirname, '../client');
+const Messages = require('./models/Messages');
 const port = process.env.PORT || 3000;
 let onlineUser = [];
 app.use(express.static(pathFile));
@@ -45,10 +46,10 @@ db.once('open',() => {
             }
             socket.broadcast.emit('welcomeMessage',newUserMessage);
         });
-        //display time every 13 secs
+        //display time every 13 mins
         setInterval(() => {
             socket.emit('displayTime',getTime());
-        },13000);
+        },780000);
         socket.on('disconnect', () => {
             onlineUser.splice(onlineUser.indexOf(socket.user), 1);
             io.emit('fetchUser', onlineUser);
