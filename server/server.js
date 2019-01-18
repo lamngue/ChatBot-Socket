@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
 const http = require('http');
+require('dotenv').config()
 const socketIO = require('socket.io');
 const app = express();
 const server = http.createServer(app);
@@ -9,11 +10,10 @@ const io = socketIO(server);
 const {getTime} = require('./utils/timeTeller');
 const pathFile = path.join(__dirname, '../client');
 const port = process.env.PORT || 3000;
-const url = 'mongodb://lamdepzai:abc123@ds159184.mlab.com:59184/chat-bot';
 let onlineUser = [];
 app.use(express.static(pathFile));
 server.listen(port, () => {
-    mongoose.connect(url,{useNewUrlParser: true});
+    mongoose.connect(`${process.env.MONGODB_URL}`,{useNewUrlParser: true});
 });
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
