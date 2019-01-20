@@ -1,15 +1,15 @@
 //CLIENT
-function fetchImage(url,user){
+function fetchImage(url, user) {
     $.ajax({
         method: 'GET',
         url: url,
         contentType: 'application/json',
         dataType: 'json',
-        success: function(response){
+        success: function (response) {
             const imageUrl = response[0].url;
             $("#chat-window").append(`<div class="card card-body bg-light"><span class="font-weight-bold">${user}</span><img src=${imageUrl} width='200px' height='200px'></div>`)
         },
-        fail: function(err){
+        fail: function (err) {
             console.log(err);
         }
     })
@@ -21,17 +21,17 @@ socket.on('connect', function () {
 socket.on('disconnect', function () {
     console.log('disconnected from server');
 });
-socket.on('welcomeMessage',function(message){
+socket.on('welcomeMessage', function (message) {
     $("#chat-window").append(`<div class="card card-body bg-light"><span class="font-weight-bold">${message.user}</span>  ${message.content}</div>`);
 });
 socket.on('newMessage', function (message) {
-    if(message.content === '!cat'){
+    if (message.content === '!cat') {
         console.log(message.content);
-        fetchImage('https://api.thecatapi.com/v1/images/search?size=full','Admin')
+        fetchImage('https://api.thecatapi.com/v1/images/search?size=full', 'Admin')
     }
     $("#chat-window").append(`<div class="card card-body bg-light"><span class="font-weight-bold">${message.user}</span>  ${message.content}</div>`);
 });
-socket.on('displayTime',function(timeString){
+socket.on('displayTime', function (timeString) {
     $("#chat-window").append(`<div class="card card-body bg-light">${timeString}</div>`);
 });
 $("#username-form").on("submit", function (e) {
@@ -57,10 +57,18 @@ $("#username-form").on("submit", function (e) {
     });
 });
 
-socket.on('fetchUser',function(users){
+socket.on('fetchUser', function (users) {
     $("#active-users").html(`There are ${users.length} active users`);
     users.forEach((user) => {
         $("#active-users").append(`<div class="card card-body bg-light">${user}</div>`);
     });
 });
 
+socket.emit('loadMessages');
+//load messages from db
+socket.on('fetchMessage', (messages) => {
+    // console.log(messages);
+    messages.forEach((message) => {
+        $("#chat-window").append(`<div class="card card-body bg-light"><span class="font-weight-bold">${message.user}</span>  ${message.content}</div>`);
+    });
+});

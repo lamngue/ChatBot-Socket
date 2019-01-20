@@ -26,7 +26,13 @@ db.once('open',() => {
             user: "Admin",
             content: "Welcome to the chat bot!"
         }
-        socket.emit('welcomeMessage',welcomeMessage)
+        socket.emit('welcomeMessage',welcomeMessage);
+        socket.on('loadMessages',() => {
+            Messages.find().then((messages) => {
+                console.log(messages);
+                socket.emit('fetchMessage',messages);
+            });
+        });
         socket.on('createMessage', (message) => {
             console.log('createMessage', message);
             const newMessage = {
@@ -34,6 +40,12 @@ db.once('open',() => {
                 content: message.content
             }
             io.emit('newMessage', newMessage);
+            const savedMessage = new Messages({
+                user: message.user,
+                content: message.content
+            });
+            //save to database
+            savedMessage.save()
         });
         socket.on('newUser', (user) => {
             socket.user = user;
